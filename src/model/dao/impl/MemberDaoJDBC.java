@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,23 +27,89 @@ public class MemberDaoJDBC implements MemberDao {
 	public void MemberDaoJDCB(Connection conn) {
 		this.conn = conn;
 	}
-	
+
 	@Override
 	public void insert(Member obj) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"INSERT INTO member " 
+					+ "(Name, Course, Category, DepartmentId) " 
+				    + "VALUES " + "(?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+
+			st.setString(1, obj.getName());
+			st.setString(2, obj.getCourse());
+			st.setString(3, obj.getCategory());
+			st.setInt(4, obj.getDepartment().getId());
+
+			int rowsAffected = st.executeUpdate();
+
+			if (rowsAffected > 0) {
+				ResultSet rs = st.getGeneratedKeys();
+				if (rs.next()) {
+					int id = rs.getInt(1);
+					obj.setId(id);
+				}
+
+				DB.closeResultSet(rs);
+			}
+
+			else {
+				throw new DbException("Unexpected error! No rows affected!");
+			}
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+
+		finally {
+			DB.closeStatement(st);
+		}
+
 	}
 
 	@Override
 	public void update(Member obj) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"UPDATE MEMBER"
+					+ "SET Name = ?, Course = ?, Category = ?, Department = ? "
+					+ "WHERE Id = ?");
+
+			st.setString(1, obj.getName());
+			st.setString(2, obj.getCourse());
+			st.setString(3, obj.getCategory());
+			st.setInt(4, obj.getDepartment().getId());
+			st.setInt(5, obj.getId());
+
+			st.executeUpdate();
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+
+		finally {
+			DB.closeStatement(st);
+		}
+
 	}
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM member WHERE Id = ?");
+			
+			st.setInt(1, id);
+			
+			st.executeUpdate();
+		}
+		catch (SQLException e){
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 	}
 
 	@Override
@@ -50,26 +117,22 @@ public class MemberDaoJDBC implements MemberDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement(
-					"MEMBER member.*, member.Name as MemName "
-					+ "FROM member INNER JOIN member "
-					+ "ON member.DepartmentId = derpartmnet.Id"
-					+ "WHERE member.Id = ?");
-					
+			st = conn.prepareStatement("MEMBER member.*, member.Name as MemName " + "FROM member INNER JOIN member "
+					+ "ON member.DepartmentId = derpartmnet.Id" + "WHERE member.Id = ?");
+
 			st.setInt(1, id);
 			rs = st.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				Department dep = instantiateDepartment(rs);
-				Member obj = instantiateMember(rs, dep);		
+				Member obj = instantiateMember(rs, dep);
 				return obj;
 			}
 			return null;
 		}
-		
-		catch(SQLException e){
+
+		catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}
-		finally {
+		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
@@ -92,10 +155,43 @@ public class MemberDaoJDBC implements MemberDao {
 		return dep;
 	}
 
-	@Override
+	@Override // reaproveitamento de codigo do findByDepartment
 	public List<Member> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT member.*, department.Name as DepName " 
+			        + "FROM member INNER JOIN department "
+					+ "ON member.DepartmentId = derpartmnet.Id" 
+			        + "ORDER BY Name");
+
+			rs = st.executeQuery();
+
+			List<Member> list = new ArrayList<>();
+			Map<Integer, Department> map = new HashMap<>();
+
+			while (rs.next()) {
+
+				Department dep = map.get(rs.getInt("DepartmentId"));
+
+				if (dep == null) {
+					dep = instantiateDepartment(rs);
+					map.put(rs.getInt("DepartmentId"), dep);
+				}
+
+				Member obj = instantiateMember(rs, dep);
+				list.add(obj);
+			}
+			return list;
+		}
+
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override
@@ -105,40 +201,38 @@ public class MemberDaoJDBC implements MemberDao {
 		try {
 			st = conn.prepareStatement(
 					"SELECT member.*, department.Name as DepName "
-					+ "FROM member INNER JOIN department "
+			        + "FROM member INNER JOIN department "
 					+ "ON member.DepartmentId = derpartmnet.Id"
-					+ "WHERE DepartmentId = ?"
+			        + "WHERE DepartmentId = ?"
 					+ "ORDER BY Name");
-					
+
 			st.setInt(1, department.getId());
-			
+
 			rs = st.executeQuery();
-			
+
 			List<Member> list = new ArrayList<>();
 			Map<Integer, Department> map = new HashMap<>();
-			
-			while(rs.next()) {
-				
+
+			while (rs.next()) {
+
 				Department dep = map.get(rs.getInt("DepartmentId"));
-				
+
 				if (dep == null) {
 					dep = instantiateDepartment(rs);
 					map.put(rs.getInt("DepartmentId"), dep);
 				}
-				
-				Member obj = instantiateMember(rs, dep);		
+
+				Member obj = instantiateMember(rs, dep);
 				list.add(obj);
 			}
 			return list;
 		}
-		
-		catch(SQLException e){
+
+		catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}
-		finally {
+		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
 	}
-
 }
