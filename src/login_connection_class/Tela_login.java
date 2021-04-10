@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
+import javax.swing.JTextArea;
+import java.awt.SystemColor;
 
 public class Tela_login extends JFrame {
 
@@ -48,6 +50,7 @@ public class Tela_login extends JFrame {
 	 * Create the frame.
 	 */
 	public Tela_login() {
+		setResizable(false);
 		setTitle("Enterprise System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 362, 356);
@@ -78,9 +81,9 @@ public class Tela_login extends JFrame {
 		pfPassW.setBounds(112, 156, 210, 27);
 		contentPane.add(pfPassW);
 		
-		JButton btnNewButton = new JButton("Entrar");
-		btnNewButton.setBackground(UIManager.getColor("Button.shadow"));
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnEntrar = new JButton("Entrar");
+		btnEntrar.setBackground(UIManager.getColor("Button.shadow"));
+		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
@@ -98,7 +101,7 @@ public class Tela_login extends JFrame {
 					
 					
 					if(rs.next()) {
-						Tela_Cadastro exibir = new Tela_Cadastro();
+						Cadastro_Membros exibir = new Cadastro_Membros();
 						exibir.setVisible(true);
 						
 						setVisible(false);
@@ -118,8 +121,8 @@ public class Tela_login extends JFrame {
 				
 			}
 		});
-		btnNewButton.setFont(new Font("Dialog", Font.PLAIN, 14));
-		btnNewButton.setBounds(112, 248, 129, 34);
-		contentPane.add(btnNewButton);
+		btnEntrar.setFont(new Font("Dialog", Font.PLAIN, 14));
+		btnEntrar.setBounds(112, 248, 129, 34);
+		contentPane.add(btnEntrar);
 	}
 }
