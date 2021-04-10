@@ -1,4 +1,4 @@
-package Login_Connection_Class;
+package login_connection_class;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
