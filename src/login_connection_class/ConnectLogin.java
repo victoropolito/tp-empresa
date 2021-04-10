@@ -17,7 +17,7 @@ public class ConnectLogin {
 			Class.forName("com.mysql.jdbc.Driver");
 			
 			//obter conexão através do drive manager: caminho do bd, usuário, senha
-			return DriverManager.getConnection("jdbc:mysql://localhost/db_passwords","root"," ");
+			return DriverManager.getConnection("jdbc:mysql://localhost/db_passwords","root","");
 		
 			
 			
