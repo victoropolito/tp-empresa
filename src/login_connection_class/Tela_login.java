@@ -26,7 +26,7 @@ import java.awt.SystemColor;
 
 public class Tela_login extends JFrame {
 
-	private JPanel contentPane;
+	private JPanel cPaneLogin;
 	private JTextField tfUser;
 	private JPasswordField pfPassW;
 
@@ -54,32 +54,32 @@ public class Tela_login extends JFrame {
 		setTitle("Enterprise System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 362, 356);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		cPaneLogin = new JPanel();
+		cPaneLogin.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(cPaneLogin);
+		cPaneLogin.setLayout(null);
 		
 		JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
 		lblUsurio.setForeground(Color.DARK_GRAY);
 		lblUsurio.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblUsurio.setBounds(21, 78, 81, 34);
-		contentPane.add(lblUsurio);
+		cPaneLogin.add(lblUsurio);
 		
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setForeground(Color.DARK_GRAY);
 		lblSenha.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblSenha.setBounds(21, 149, 81, 34);
-		contentPane.add(lblSenha);
+		cPaneLogin.add(lblSenha);
 		
 		tfUser = new JTextField();
 		tfUser.setFont(new Font("Dialog", Font.PLAIN, 16));
 		tfUser.setBounds(112, 82, 210, 27);
-		contentPane.add(tfUser);
+		cPaneLogin.add(tfUser);
 		tfUser.setColumns(10);
 		
 		pfPassW = new JPasswordField();
 		pfPassW.setBounds(112, 156, 210, 27);
-		contentPane.add(pfPassW);
+		cPaneLogin.add(pfPassW);
 		
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.setBackground(UIManager.getColor("Button.shadow"));
@@ -123,6 +123,6 @@ public class Tela_login extends JFrame {
 		});
 		btnEntrar.setFont(new Font("Dialog", Font.PLAIN, 14));
 		btnEntrar.setBounds(112, 248, 129, 34);
-		contentPane.add(btnEntrar);
+		cPaneLogin.add(btnEntrar);
 	}
 }
