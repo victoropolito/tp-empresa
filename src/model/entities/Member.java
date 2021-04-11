@@ -92,8 +92,7 @@ public class Member implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Seller [id=" + id + ", name=" + name + ", course=" + course + ", category=" + category + ", department="
-				+ department + "]";
+		return "Seller [id=" + id + ", name=" + name + ", course=" + course + ", category=" + category + ", " + department + "]";
 	}
 	
 }

@@ -10,39 +10,46 @@ import model.entities.Member;
 
 public class Program {
 
+	/* 
+	
+	AS IMPLEMENTAÇÕES QUE ESTÃO EM COMENTÁRIO É PQ ESTAVAM APRESENTANDO EXCEÇÕES AO COMUNICAR COM O BD E AINDA NÃO SEI O MOTIVO.
+	A LÓGICA DELAS EU CREIO QUE ESTEJAM CORRETAS!
+	IREI FAZER MAIS ALGUNS TESTES ATÉ DESCOBRIR O QUE PODE SER
+	
+	*/
+	
 	public static void main(String[] args) {
-
-		MemberDao memberDao = DaoFactory.createMemberDao();
-		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("=== TEST 1: member findById ===");
-		Member member = memberDao.findById(0);
-		System.out.println(member);
+		MemberDao memberDao = DaoFactory.createMemberDao();
 		
-		System.out.println("=== TEST 2: member findByDepartment ===");
-		Department department = new Department(2, null);
+		/*System.out.println("=== TEST 1: member findById ===");
+		Member member = memberDao.findById(1);
+		System.out.println(member); */
+		
+		System.out.println("\n=== TEST 2: member findByDepartment ===");
+		Department department = new Department(1, null);
 		List<Member> list = memberDao.findByDepartment(department);
 		for(Member obj : list) {
 			System.out.println(obj);
 		}
 		
-		System.out.println("=== TEST 3: member findAll ===");
+		System.out.println("\n=== TEST 3: member findAll ===");
 		list = memberDao.findAll();
 		for(Member obj : list) {
 			System.out.println(obj);
 		}
 		
-		System.out.println("=== TEST 4: member insert ===");
+		/*System.out.println("\n=== TEST 4: member insert ===");
 		Member newMember = new Member(null, "Victor", "SI", "Dev.", department);
 		memberDao.insert(newMember);
-		System.out.println("Inserted! New id = " + newMember.getId());
+		System.out.println("Inserted! New id = " + newMember.getId()); */
 		
-		System.out.println("=== TEST 5: member update ===");
-		member = memberDao.findById(1);
+		/*System.out.println("=== TEST 5: member update ===");
+		Member member = memberDao.findById(9);
 		member.setName("Melissa");
 		memberDao.update(member);
-		System.out.println("Updated completed!");
+		System.out.println("Updated completed!");*/
 		
 		System.out.println("=== TEST 6: member delete ===");
 		System.out.println("Enter id for delete test: ");

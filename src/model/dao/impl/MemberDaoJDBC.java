@@ -19,12 +19,8 @@ import model.entities.Member;
 public class MemberDaoJDBC implements MemberDao {
 
 	private Connection conn;
-	
-	public MemberDaoJDBC(Connection connection) {
-		// TODO Auto-generated constructor stub
-	}
 
-	public void MemberDaoJDCB(Connection conn) {
+	public MemberDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
 
@@ -35,7 +31,8 @@ public class MemberDaoJDBC implements MemberDao {
 			st = conn.prepareStatement(
 					"INSERT INTO member " 
 					+ "(Name, Course, Category, DepartmentId) " 
-				    + "VALUES " + "(?, ?, ?, ?)",
+				    + "VALUES " 
+					+ "(?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 
 			st.setString(1, obj.getName());
@@ -74,7 +71,7 @@ public class MemberDaoJDBC implements MemberDao {
 		try {
 			st = conn.prepareStatement(
 					"UPDATE MEMBER"
-					+ "SET Name = ?, Course = ?, Category = ?, Department = ? "
+					+ "SET Name = ?, Course = ?, Category = ?, DepartmentId = ? "
 					+ "WHERE Id = ?");
 
 			st.setString(1, obj.getName());
@@ -117,8 +114,11 @@ public class MemberDaoJDBC implements MemberDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement("MEMBER member.*, member.Name as MemName " + "FROM member INNER JOIN member "
-					+ "ON member.DepartmentId = derpartmnet.Id" + "WHERE member.Id = ?");
+			st = conn.prepareStatement(
+					"SELECT member.*,department.Name as DepName " 
+					+ "FROM member INNER JOIN department "
+					+ "ON member.DepartmentId = department.Id"
+					+ "WHERE member.Id = ?");
 
 			st.setInt(1, id);
 			rs = st.executeQuery();
@@ -161,9 +161,9 @@ public class MemberDaoJDBC implements MemberDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT member.*, department.Name as DepName " 
+					"SELECT member.*,department.Name as DepName " 
 			        + "FROM member INNER JOIN department "
-					+ "ON member.DepartmentId = derpartmnet.Id" 
+					+ "ON member.DepartmentId = department.Id" 
 			        + "ORDER BY Name");
 
 			rs = st.executeQuery();
@@ -200,10 +200,10 @@ public class MemberDaoJDBC implements MemberDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT member.*, department.Name as DepName "
+					"SELECT member.*,department.Name as DepName "
 			        + "FROM member INNER JOIN department "
-					+ "ON member.DepartmentId = derpartmnet.Id"
-			        + "WHERE DepartmentId = ?"
+					+ "ON member.DepartmentId = department.Id "
+			        + "WHERE DepartmentId = ? "
 					+ "ORDER BY Name");
 
 			st.setInt(1, department.getId());
