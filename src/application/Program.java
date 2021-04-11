@@ -23,9 +23,9 @@ public class Program {
 		
 		MemberDao memberDao = DaoFactory.createMemberDao();
 		
-		/*System.out.println("=== TEST 1: member findById ===");
+		System.out.println("=== TEST 1: member findById ===");
 		Member member = memberDao.findById(1);
-		System.out.println(member); */
+		System.out.println(member);
 		
 		System.out.println("\n=== TEST 2: member findByDepartment ===");
 		Department department = new Department(1, null);
@@ -40,16 +40,16 @@ public class Program {
 			System.out.println(obj);
 		}
 		
-		/*System.out.println("\n=== TEST 4: member insert ===");
+		System.out.println("\n=== TEST 4: member insert ===");
 		Member newMember = new Member(null, "Victor", "SI", "Dev.", department);
 		memberDao.insert(newMember);
-		System.out.println("Inserted! New id = " + newMember.getId()); */
+		System.out.println("Inserted! New id = " + newMember.getId());
 		
-		/*System.out.println("=== TEST 5: member update ===");
-		Member member = memberDao.findById(9);
-		member.setName("Melissa");
-		memberDao.update(member);
-		System.out.println("Updated completed!");*/
+		System.out.println("=== TEST 5: member update ===");
+		Member member2 = memberDao.findById(15);
+		member2.setName("Melissa");
+		memberDao.update(member2);
+		System.out.println("Updated completed!");
 		
 		System.out.println("=== TEST 6: member delete ===");
 		System.out.println("Enter id for delete test: ");

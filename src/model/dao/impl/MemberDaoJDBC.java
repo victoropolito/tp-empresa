@@ -70,9 +70,10 @@ public class MemberDaoJDBC implements MemberDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-					"UPDATE MEMBER"
+					"UPDATE member "
 					+ "SET Name = ?, Course = ?, Category = ?, DepartmentId = ? "
-					+ "WHERE Id = ?");
+					+ "WHERE Id = ?"
+					);
 
 			st.setString(1, obj.getName());
 			st.setString(2, obj.getCourse());
@@ -88,7 +89,6 @@ public class MemberDaoJDBC implements MemberDao {
 		finally {
 			DB.closeStatement(st);
 		}
-
 	}
 
 	@Override
@@ -115,10 +115,15 @@ public class MemberDaoJDBC implements MemberDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT member.*,department.Name as DepName " 
+					//"SELECT * FROM member WHERE Id = ?" teste pro bd
+					
+					 "SELECT member.*,department.Name as DepName "
 					+ "FROM member INNER JOIN department "
-					+ "ON member.DepartmentId = department.Id"
-					+ "WHERE member.Id = ?");
+					+ "ON member.DepartmentId = department.Id "
+					+ "WHERE member.Id = ?"
+
+					
+					);
 
 			st.setInt(1, id);
 			rs = st.executeQuery();
@@ -163,8 +168,8 @@ public class MemberDaoJDBC implements MemberDao {
 			st = conn.prepareStatement(
 					"SELECT member.*,department.Name as DepName " 
 			        + "FROM member INNER JOIN department "
-					+ "ON member.DepartmentId = department.Id" 
-			        + "ORDER BY Name");
+					+ "ON member.DepartmentId = department.Id ORDER BY Name"
+					);
 
 			rs = st.executeQuery();
 
