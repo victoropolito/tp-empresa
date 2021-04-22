@@ -1,4 +1,4 @@
-package login_connection_class;
+package project.screens;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -24,7 +24,12 @@ import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import java.awt.SystemColor;
 
-public class Tela_login extends JFrame {
+import model.entities.Member;
+import model.dao.MemberDao;
+import model.dao.impl.MemberDaoJDBC;
+
+
+public class LoginScreen extends JFrame {
 
 	private JPanel cPaneLogin;
 	private JTextField tfUser;
@@ -37,7 +42,7 @@ public class Tela_login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Tela_login frame = new Tela_login();
+					LoginScreen frame = new LoginScreen();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +54,7 @@ public class Tela_login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Tela_login() {
+	public LoginScreen() {
 		setResizable(false);
 		setTitle("Enterprise System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,7 +94,7 @@ public class Tela_login extends JFrame {
 				try {
 					Connection con = ConnectLogin.do_connection();
 					
-					String sql = "select *from data_Pass where user=? and password=?";
+					String sql = "select *from member where id=? and password=?";
 					
 					PreparedStatement stmt = con.prepareStatement(sql);
 					

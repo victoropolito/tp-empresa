@@ -1,6 +1,7 @@
-package login_connection_class;
+package project.screens;
 
 import java.awt.Color;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -24,7 +25,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
-public class Cadastro_Projetos extends JInternalFrame {
+import model.entities.*;
+import model.dao.*;
+import model.dao.impl.*;
+import application.*;
+
+public class Cadastro_Projetos extends JFrame {
 
 	private JPanel cPaneProject;
 	private JTextField tfIdP;
@@ -170,13 +176,31 @@ public class Cadastro_Projetos extends JInternalFrame {
 		cbSM.setBounds(254, 317, 97, 23);
 		cPaneProject.add(cbSM);
 		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnAtualizar.setFont(new Font("Dialog", Font.PLAIN, 12));
+		btnAtualizar.setBounds(155, 462, 81, 23);
+		cPaneProject.add(btnAtualizar);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnExcluir.setFont(new Font("Dialog", Font.PLAIN, 12));
+		btnExcluir.setBounds(251, 462, 74, 23);
+		cPaneProject.add(btnExcluir);
+		
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
 					
 					Connection con = ConnectLogin.do_connection();
-					String sql = "insert into data_pass(nomeProjeto, descricao, tpProjeto, habdesign, habbd, habseo, habfront, habback, habpo, habsm) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					String sql = "insert into project(name, description, projectType, habDesign, habBD, habSEO, habFront, habBack, habPO, habSM) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 					
 					PreparedStatement stmt = con.prepareStatement(sql);
 					

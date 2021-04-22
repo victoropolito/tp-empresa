@@ -1,4 +1,6 @@
-package login_connection_class;
+package project.screens;
+
+
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -29,6 +31,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JCheckBox;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
+import model.entities.*;
+import model.dao.*;
+import model.dao.impl.*;
+import application.*;
 
 public class Cadastro_Membros extends JFrame {
 
@@ -202,7 +209,7 @@ public class Cadastro_Membros extends JFrame {
 				try {
 					
 					Connection con = ConnectLogin.do_connection();
-					String sql = "insert into data_pass(nome, senha, curso, categoria, departamento, habdesign, habbd, habseo, habfront, habback, habpo, habsm) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					String sql = "insert into member(name, password, course, category, departament, habdesign, habbd, habseo, habfront, habback, habpo, habsm) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 					
 					PreparedStatement stmt = con.prepareStatement(sql);
 					
@@ -247,11 +254,30 @@ public class Cadastro_Membros extends JFrame {
 			
 		});
 		btnSalvar.setFont(new Font("Dialog", Font.PLAIN, 12));
-		btnSalvar.setBounds(54, 433, 89, 23);
+		btnSalvar.setBounds(54, 433, 74, 23);
 		contentPane.add(btnSalvar);
 		
 		pfPassW = new JPasswordField();
 		pfPassW.setBounds(162, 127, 165, 20);
 		contentPane.add(pfPassW);
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnAtualizar.setFont(new Font("Dialog", Font.PLAIN, 12));
+		btnAtualizar.setBounds(149, 433, 81, 23);
+		contentPane.add(btnAtualizar);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnExcluir.setFont(new Font("Dialog", Font.PLAIN, 12));
+		btnExcluir.setBounds(241, 433, 74, 23);
+		contentPane.add(btnExcluir);
 	}
 }

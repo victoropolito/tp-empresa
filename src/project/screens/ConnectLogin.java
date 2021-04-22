@@ -1,4 +1,4 @@
-package login_connection_class;
+package project.screens;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
